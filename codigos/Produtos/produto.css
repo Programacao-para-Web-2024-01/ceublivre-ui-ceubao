@@ -45,7 +45,6 @@ h1 {
     color: white;
   }
   
- 
 .rating-heart {
     unicode-bidi: bidi-override;
     color: #ccc;
@@ -54,23 +53,7 @@ h1 {
     position: relative;
     padding-left: 0;
   }
-  
-.rating-heart::before {
-    content: '❤️❤️❤️❤️❤️';
-    letter-spacing: 3px;
-    padding-right: 0;
-  }
-  
-.rating-heart::after {
-    content: '❤️❤️❤️❤️❤️';
-    letter-spacing: 3px;
-    color: #FFD700; 
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    width: 0;
-  }
+
 form {
     display: flex;
     flex-direction: column;
@@ -167,3 +150,35 @@ h2{
 p{
     color: white;
 }
+
+
+.review .Avaliação {
+    margin-top: 10px;
+    color: white;
+}
+.hearts {
+    color: red;
+    font-size: 18px;
+}
+
+.choice-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #007BFF;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.choice-btn:hover {
+    background-color: white;
+    color: #007BFF;
+}
+
+.choice-btn:active {
+    background-color: #0056b3;
+    color: white;
+}
+
