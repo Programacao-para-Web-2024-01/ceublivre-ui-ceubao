@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Produto</title>
+</head>
+<body>
+    <h1>Criar Produto</h1>
+    <label>
+        Nome do Produto: <input type="text" id="productNameInput" placeholder="Nome do Produto">
+    </label>
+    <br>
+    <label>
+        Preço do Produto: <input type="number" id="productPriceInput" placeholder="Preço do Produto">
+    </label>
+    <br>
+    <label>
+        Descrição do Produto: <input type="text" id="productDescriptionInput" placeholder="Descrição do Produto">
+    </label>
+    <br>
+    <button id="createProductBtn">Enviar</button>
+
+    <script>
+        document.getElementById('createProductBtn').addEventListener('click', () => {
+            const productName = document.getElementById('productNameInput').value;
+            const productPrice = parseFloat(document.getElementById('productPriceInput').value);
+            const productDescription = document.getElementById('productDescriptionInput').value;
+
+            // Objeto com os dados do produto a ser criado
+            const productData = {
+                name: productName,
+                price: productPrice,
+                description: productDescription
+            };
+
+            // Envia a requisição POST para criar um produto
+            fetch('http://localhost:8080/products/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData) // Converte o objeto para JSON
+            })
+            .then(response => {
+                // Verifica se a requisição foi bem-sucedida
+                if (!response.ok) {
+                    throw new Error('Erro ao criar produto');
+                }
+                // Retorna a resposta em formato JSON
+                return response.json();
+            })
+            .then(data => {
+                // Exibe uma mensagem de sucesso com o ID do produto criado
+                alert('Produto criado com sucesso! ID: ' + data.id);
+            })
+            .catch(error => {
+                // Exibe uma mensagem de erro caso ocorra algum problema na requisição
+                console.error('Erro:', error);
+                alert('Erro ao criar produto');
+            });
+        });
+    </script>
+</body>
+</html>
