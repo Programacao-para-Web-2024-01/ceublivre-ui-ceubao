@@ -23,6 +23,9 @@
                 <label for="category">Category ID:</label>
                 <input type="number" id="category" name="category" required><br>
 
+                <label for="image">Product Image URL:</label>
+                <input type="text" id="image" name="image" required><br>
+
                 <button type="submit">Create Product</button>
             </div>
         </form>
@@ -36,16 +39,17 @@
             const price = parseFloat(document.getElementById('price').value); // Convertendo para número
             const description = document.getElementById('description').value;
             const categoria_idcategoria = parseInt(document.getElementById('category').value); // Convertendo para número
+            const image = document.getElementById('image').value; // URL da imagem
 
             // Log para depuração
-            console.log('Form data:', { name, price, description, categoria_idcategoria });
+            console.log('Form data:', { name, price, description, categoria_idcategoria, image });
 
             fetch('http://localhost:8080/products/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name, price, description, categoria_idcategoria })
+                body: JSON.stringify({ name, price, description, categoria_idcategoria, image })
             })
             .then(response => {
                 // Verificação para garantir que a resposta seja JSON
@@ -57,6 +61,8 @@
             .then(data => {
                 console.log('Success:', data);
                 alert('Produto criado com sucesso! ID: ' + data.id);
+                // Redirecionar para a página de listagem de produtos
+                window.location.href = '../productspage/products.html';
             })
             .catch(error => {
                 console.error('Error:', error);

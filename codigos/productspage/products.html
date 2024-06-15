@@ -24,7 +24,6 @@
                 <div class="toggle-btn">
                     <i class="fa-solid fa-bars"></i>
                 </div>
-                    
                 <div class="dropdown-menu">
                     <li><a href="hero">Home</a></li>
                     <li><a href="about">About Us</a></li>
@@ -40,79 +39,43 @@
     <main>
         <div class="wrapper-main">
             <section>
-                <ul class="products-list">
-                    <li>
-                        <article>
-                            <p class="nome">Monaliza</p>
-                            <p class="preco">R$15,60</p>
-                            <img width="150" height="150" src="https://s2-techtudo.glbimg.com/SSAPhiaAy_zLTOu3Tr3ZKu2H5vg=/0x0:1024x609/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2022/c/u/15eppqSmeTdHkoAKM0Uw/dall-e-2.jpg">
-                            <button class="buton">Adicionar ao Carrinho</button>
-                            <button class="button-container"><a href="../productsdescription/produto1.html">Ver Mais</a></button>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <p class="nome">Opala</p>
-                            <p class="preco">R$15.000,00</p>
-                            <img width="150" height="150" src="https://upload.wikimedia.org/wikipedia/commons/2/22/Chevrolet_Opala_SS_1978_Inca.jpg">
-                            <button class="buton">Adicionar ao Carrinho</button>
-                            <button class="button-container"><a href="../productsdescription/produto2.html">Ver Mais</a></button>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <p class="nome">Fusca</p>
-                            <p class="preco">R$13.000,00</p>
-                            <img width="150" height="150" src="https://s2-autoesporte.glbimg.com/x8eFp8dCk6dEurWSZ3VRK0xiEkg=/0x0:1298x865/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_cf9d035bf26b4646b105bd958f32089d/internal_photos/bs/2023/a/F/bNed1NR5KVKNqlvDiYrQ/8731b386-2f60-4690-80cf-1f9359c38864-medium.jpeg">
-                            <button class="buton">Adicionar ao Carrinho</button>
-                            <button class="button-container"><a href="../productsdescription/produto3.html">Ver Mais</a></button>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <p class="nome">Processador</p>
-                            <p class="preco">R$770,00</p>
-                            <img width="150" height="150" src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQHQzno7_zyLtqUwdI4o-6KSArMLyTpkedDOOqSYGPWfXhgL91zcbYM1OenwRuU0CLC2xiP-SXIo8BYmNtSzZbzcRbBTRppLNJn_i6Vx_JCPlTtsfBnxjml7PAizRNcvEOXCgFsGA&usqp=CAc">
-                            <button class="buton">Adicionar ao Carrinho</button>
-                            <button class="button-container"><a href="../productsdescription/produto4.html">Ver Mais</a></button>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <p class="nome">Place Mãe</p>
-                            <p class="preco">R$2.000,00</p>
-                            <img width="150" height="150" src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcR7wbzvtJaEQmLs7PJnfom_D-Ua_jAZS1BCawB3kzM5x0HnCnJy0Ny24mFgAC-WBC8wdPGFk4fmqfyhhydR9dnXY68TX7ByiObZXODHdTjdry7SjF5Xr9jTe-l4Koe3syV7f6yZfi4&usqp=CAc ">                            
-                            <button class="buton">Adicionar ao Carrinho</button>
-                            <button class="button-container"><a href="../productsdescription/produto5.html">Ver Mais</a></button>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <p class="nome">Memória RAM</p>
-                            <p class="preco">R$3.300,00</p>
-                            <img width="150" height="150" src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTzJ6L1R8XNgqG6H3XgMoK0XSJKOjHBs2OcsccM_cCA45fhXl3fe0g6PYdcD_Dp4Z73rwOFusNkVT9tVV4DgVNIbuXFG2Zgr1ZHStzgO8krkVsblNVztXfT3au2nBqy0ULuLIWlZc4&usqp=CAc">
-                            <button class="buton">Adicionar ao Carrinho</button>
-                            <button class="button-container"><a href="../productsdescription/produto6.html">Ver Mais</a></button>
-                        </article>
-                    </li>
+                <ul class="products-list" id="productsList">
+                    <!-- Produtos serão carregados aqui dinamicamente -->
                 </ul>
             </section>
         </div>
     </main>
 
     <script>
-        const toggleBtn = document.querySelector('.toggle-btn');
-        const toggleBtnIcon = document.querySelector('.toggle-btn i');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
-    
-        toggleBtn.onclick = function () {
-            dropdownMenu.classList.toggle('open');
-            const isOpen = dropdownMenu.classList.contains('open');
-
-            toggleBtnIcon.classList = isOpen
-                ? 'fa-solid fa-xmark'
-                : 'fa-solid fa-bars';
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://localhost:8080/products')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao carregar produtos');
+                    }
+                    return response.json();
+                })
+                .then(products => {
+                    const productsList = document.getElementById('productsList');
+                    products.forEach(product => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <article>
+                                <p class="nome">${product.name}</p>
+                                <p class="preco">R$ ${product.price.toFixed(2)}</p>
+                                <img src="${product.image}" width="150" height="150">
+                                <button class="buton">Adicionar ao Carrinho</button>
+                                <button class="button-container"><a href="../productsdescription/produto${product.id}.html">Ver Mais</a></button>
+                            </article>
+                        `;
+                        productsList.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao carregar produtos');
+                });
+        });
     </script>
 </body>
 </html>
