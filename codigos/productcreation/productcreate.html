@@ -3,61 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Produto</title>
+    <title>Create Product</title>
+    <link rel="stylesheet" href="productcreate.css">
 </head>
 <body>
-    <h1>Criar Produto</h1>
-    <label>
-        Nome do Produto: <input type="text" id="productNameInput" placeholder="Nome do Produto">
-    </label>
-    <br>
-    <label>
-        Preço do Produto: <input type="number" id="productPriceInput" placeholder="Preço do Produto">
-    </label>
-    <br>
-    <label>
-        Descrição do Produto: <input type="text" id="productDescriptionInput" placeholder="Descrição do Produto">
-    </label>
-    <br>
-    <button id="createProductBtn">Enviar</button>
+    <div class="container">
+        <h1>Create Product</h1>
+        <form id="createProductForm">
+            <div class="form-container">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br>
+
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" required><br>
+
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required><br>
+
+                <label for="category">Category ID:</label>
+                <input type="number" id="category" name="category" required><br>
+
+                <button type="submit">Create Product</button>
+            </div>
+        </form>
+    </div>
 
     <script>
-        document.getElementById('createProductBtn').addEventListener('click', () => {
-            const productName = document.getElementById('productNameInput').value;
-            const productPrice = parseFloat(document.getElementById('productPriceInput').value);
-            const productDescription = document.getElementById('productDescriptionInput').value;
+        document.getElementById('createProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            // Objeto com os dados do produto a ser criado
-            const productData = {
-                name: productName,
-                price: productPrice,
-                description: productDescription
-            };
+            const name = document.getElementById('name').value;
+            const price = parseFloat(document.getElementById('price').value); // Convertendo para número
+            const description = document.getElementById('description').value;
+            const categoria_idcategoria = parseInt(document.getElementById('category').value); // Convertendo para número
 
-            // Envia a requisição POST para criar um produto
+            // Log para depuração
+            console.log('Form data:', { name, price, description, categoria_idcategoria });
+
             fetch('http://localhost:8080/products/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(productData) // Converte o objeto para JSON
+                body: JSON.stringify({ name, price, description, categoria_idcategoria })
             })
             .then(response => {
-                // Verifica se a requisição foi bem-sucedida
+                // Verificação para garantir que a resposta seja JSON
                 if (!response.ok) {
-                    throw new Error('Erro ao criar produto');
+                    return response.json().then(error => { throw new Error(error.error); });
                 }
-                // Retorna a resposta em formato JSON
                 return response.json();
             })
             .then(data => {
-                // Exibe uma mensagem de sucesso com o ID do produto criado
+                console.log('Success:', data);
                 alert('Produto criado com sucesso! ID: ' + data.id);
             })
             .catch(error => {
-                // Exibe uma mensagem de erro caso ocorra algum problema na requisição
-                console.error('Erro:', error);
-                alert('Erro ao criar produto');
+                console.error('Error:', error);
+                alert('Erro ao criar produto: ' + error.message);
             });
         });
     </script>
