@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../productcreation/productcreate.css">
     <title>Delete Product</title>
     <script>
         function deleteProduct() {
@@ -33,11 +34,15 @@
     </script>
 </head>
 <body>
-    <h1>Delete Product</h1>
-    <form onsubmit="event.preventDefault(); deleteProduct();">
-        <label for="productId">Product ID:</label>
-        <input type="text" id="productId" name="productId" required>
-        <button type="submit">Delete</button>
-    </form>
+    <div class="container" style="width: 300px;">
+        <div class="black-wrapper";>
+            <h1>Delete Product</h1>
+        <form onsubmit="event.preventDefault(); deleteProduct();">
+            <label for="productId">Product ID:</label>
+            <input type="text" id="productId" name="productId" required>
+            <button type="submit">Delete</button>
+        </form>
+        </div>
+    </div>
 </body>
 </html>
