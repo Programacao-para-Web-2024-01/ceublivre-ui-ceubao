@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../productcreation/productcreate.css">
+    <title>Delete Product</title>
+    <script>
+        function deleteProduct() {
+            const productId = document.getElementById('productId').value;
+
+            fetch(`http://localhost:8080/products/delete/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao deletar o produto');
+                }
+                // Não tentaremos ler JSON da resposta do DELETE
+                return;
+            })
+            .then(() => {
+                console.log('Produto deletado com sucesso!');
+                alert('Produto deletado com sucesso!');
+            })
+            .catch(error => {
+                console.error('Erro ao deletar o produto:', error);
+                alert('Erro ao deletar o produto. Verifique o console para mais detalhes.');
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container" style="width: 300px;">
+        <div class="black-wrapper";>
+            <h1>Delete Product</h1>
+        <form onsubmit="event.preventDefault(); deleteProduct();">
+            <label for="productId">Product ID:</label>
+            <input type="text" id="productId" name="productId" required>
+            <button type="submit">Delete</button>
+        </form>
+        </div>
+    </div>
+</body>
+</html>
